@@ -46,7 +46,6 @@ function countBs(str) {
 // Next, write a function called countChar that behaves like countBs, except it
 // takes a second argument that indicates the character that is to be counted.
 // Rewrite countBs to make use of this new function.
-
 let countChar = function(str, char) {
     let count = 0;
     for (let i = 0; i < str.length; i++) {
