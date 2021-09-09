@@ -22,7 +22,11 @@ let range = (start, end, step) => {
 
 // Next, write a sum function that takes an array of numbers and returns the 
 // sum of these numbers.
-// ...
+let sum = (sequence) => {
+    let output = 0;
+    for (let i of sequence) { output += i }
+    return output;
+}
 
 console.log(range(1, 10));
 // → [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
