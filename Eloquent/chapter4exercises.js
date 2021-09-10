@@ -39,11 +39,25 @@ console.log(sum(range(1, 10)));
 
 // Write a function, reverseArray, that takes an array as argument and produces
 // a new array that has the same elements in the inverse order.
-// ...
+function reverseArray(array) {
+    let output = [];
+    for (let element of array) {
+        output.unshift(element);
+    }
+    return output;
+}
 
 // Write a function, reverseArrayInPlace, that modifies the array given as 
 // argument by reversing its elements.
-// ...
+let reverseArrayInPlace = function(array) {
+    let temp;
+    for (let i = 0, j = array.length - 1; i < Math.ceil(array.length / 2); i++, j--) {
+        temp = array[i];
+      	array[i] = array[j];
+      	array[j] = temp;
+    }
+    return array;
+}
 
 console.log(reverseArray(["A", "B", "C"]));
 // → ["C", "B", "A"];
