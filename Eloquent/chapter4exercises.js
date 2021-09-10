@@ -1,5 +1,7 @@
 /* 4.1. The Sum of a Range */
 
+const { PassThrough } = require("stream");
+
 // Write a range function that takes two arguments, start and end, and returns 
 // an array containing all the numbers from start up to (and including) end.
 let range = (start, end, step) => {
@@ -68,39 +70,56 @@ console.log(arrayValue);
 
 /* 4.3. A List */
 
-// Write a function arrayToList that builds up a (Linked) list structure like 
-// the one shown when given [1, 2, 3] as argument.
-// ...
+// Write a function arrayToList that builds up a list structure like the one 
+// shown when given [1, 2, 3] as argument.
+let arrayToList = (array) => {
+    let list = null;
+    for (let i = array.length-1; i >=0; i--) {
+        list = {value: array[i], rest: list};
+    }
+    return list;
+}
 
 // Write a listToArray function that produces an array from a list.
-// ...
+let listToArray = (list) => {
+    let array = [];
+    while (list) {
+        array.push(list.value);
+        list = list.rest;
+    }
+    return array;
+}
 
 // Then add a helper function prepend, which takes an element and a list and 
 // creates a new list that adds the element to the front of the input list...
-// ...
+let prepend = (element, list) => {
+    return arrayToList([element].concat(listToArray(list)));
+    /* Note: simpler solution: return {element, rest: list} */
+}
 
 // ... and nth, which takes a list and a number and returns the element at the 
 // given position in the list (with zero referring to the first element) or 
 // undefined when there is no such element.
-// ...
+let nth = (list, number) => {
+    if (!list) return undefined;
+    else if (number == 0) return list.value;
+    else return nth(list.rest, number-1);
+}
 
 // If you haven’t already, also write a recursive version of nth.
-// ...
+// [Implemented recursive solution above].
 
 console.log(arrayToList([10, 20]));
 // → {value: 10, rest: {value: 20, rest: null}}
+console.log(arrayToList([10, 20, 30]));
 console.log(listToArray(arrayToList([10, 20, 30])));
 // → [10, 20, 30]
 console.log(prepend(10, prepend(20, null)));
 // → {value: 10, rest: {value: 20, rest: null}}
 console.log(nth(arrayToList([10, 20, 30]), 1));
-// → 20
+// // → 20
 
 /* 4.4. Deep Comparison */
-
-// Write a function arrayToList that builds up a (Linked) list structure like 
-// the one shown when given [1, 2, 3] as argument.
-// ...
 
 // Write a function deepEqual that takes two values and returns true only if 
 // they are the same value or are objects with the same properties, where the 
@@ -108,10 +127,10 @@ console.log(nth(arrayToList([10, 20, 30]), 1));
 // deepEqual.
 // ...
 
-let obj = {here: {is: "an"}, object: 2};
-console.log(deepEqual(obj, obj));
-// → true
-console.log(deepEqual(obj, {here: 1, object: 2}));
-// → false
-console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
-// → true
+// let obj = {here: {is: "an"}, object: 2};
+// console.log(deepEqual(obj, obj));
+// // → true
+// console.log(deepEqual(obj, {here: 1, object: 2}));
+// // → false
+// console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
+// // → true
