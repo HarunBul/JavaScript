@@ -125,12 +125,27 @@ console.log(nth(arrayToList([10, 20, 30]), 1));
 // they are the same value or are objects with the same properties, where the 
 // values of the properties are equal when compared with a recursive call to 
 // deepEqual.
-// ...
+let deepEqual = (a, b) => {
+    if (a === b) {
+        return true;
+    } else if (typeof a != "object" || a == null || typeof b != "object" ||b == null) {
+        return false;
+    } else if (Object.keys(a).length != Object.keys(b).length) {
+        return false;
+    } else {
+        for (let key of Object.keys(a)) {
+            if (!Object.keys(b).includes(key) || !deepEqual(a[key], b[key])) {
+                return false;
+          }
+        return true;
+        }
+    }
+}
 
-// let obj = {here: {is: "an"}, object: 2};
-// console.log(deepEqual(obj, obj));
-// // → true
-// console.log(deepEqual(obj, {here: 1, object: 2}));
-// // → false
-// console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
-// // → true
+let obj = {here: {is: "an"}, object: 2};
+console.log(deepEqual(obj, obj));
+// → true
+console.log(deepEqual(obj, {here: 1, object: 2}));
+// → false
+console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
+// → true
