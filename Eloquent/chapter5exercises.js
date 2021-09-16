@@ -3,10 +3,9 @@
 // Use the reduce method in combination with the concat method to “flatten” an 
 // array of arrays into a single array that has all the elements of the 
 // original arrays.
-// ...
 
 let arrays = [[1, 2, 3], [4, 5], [6]];
-// call f on above arrays
+console.log(arrays.reduce((a, b) => a.concat(b)));
 // → [1, 2, 3, 4, 5, 6]
 
 /* 5.2. Your Own Loop */
@@ -20,7 +19,9 @@ let arrays = [[1, 2, 3], [4, 5], [6]];
 
 //When defining the function, you can use a regular loop to do the actual
 // looping.
-// ...
+let loop = (value, test, update, body) => {
+    for (let v = value; test(v); v = update(v)) { body(v) }
+}
 
 loop(3, n => n > 0, n => n - 1, console.log);
 // → 3
@@ -38,7 +39,10 @@ loop(3, n => n > 0, n => n - 1, console.log);
 // as parameters. Write two versions, one using a loop and one using the some 
 // method.
 function every(array, test) {
-    // Your code here.
+    for (let element of array) {
+        if (!test(element)) return false
+    }
+    return true;
 }
 
 console.log(every([1, 3, 5], n => n < 10));
@@ -46,6 +50,17 @@ console.log(every([1, 3, 5], n => n < 10));
 console.log(every([2, 4, 16], n => n < 10));
 // → false
 console.log(every([], n => n < 10));
+// → true
+
+function everySome(array, test) {
+    return !array.some(element => !test(element));
+}
+
+console.log(everySome([1, 3, 5], n => n < 10));
+// → true
+console.log(everySome([2, 4, 16], n => n < 10));
+// → false
+console.log(everySome([], n => n < 10));
 // → true
 
 /* 5.4. Dominant Writing Direction */
@@ -58,7 +73,21 @@ console.log(every([], n => n < 10));
 // have a script associated with them. The characterScript and countBy 
 // functions defined earlier in the chapter are probably useful here.
 function dominantDirection(text) {
-    // Your code here.
+    /* Note: this function depends on helper functions 
+    defined in the book and data from its website */
+
+    /* Creates a map from script direction to char count 
+    for each script in the input text */
+    let directionCounts = countBy(text, char => {
+        let script = characterScript(char.codePointAt(0));
+        return script ? script.direction : "none";
+    }).filter(({name}) => name != "none");
+
+    /* Determines which direction in the above 
+    map has the highest char count */
+    return directionCounts.reduce((a, b) => {
+        return a.count > b.count ? a : b;
+    }, 0).name;
 }
   
 console.log(dominantDirection("Hello!"));
