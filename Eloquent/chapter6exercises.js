@@ -58,21 +58,21 @@ console.log(new Vec(3, 4).length);
 
 class Group {
     constructor() {
-        this.group = [];
+        this.elements = [];
     }
     add(element) {
         /* Note: could have also used the has() method below */
-        if (!this.group.includes(element)) {
-            this.group.push(element);
+        if (!this.elements.includes(element)) {
+            this.elements.push(element);
         }
     }
     delete(element) {
         /* Note: could have also used array filter() function */
-        let index = this.group.indexOf(element);
-        if (index != -1) { this.group.splice(index, 1); }
+        let index = this.elements.indexOf(element);
+        if (index != -1) { this.elements.splice(index, 1); }
     }
     has(element) {
-        return this.group.includes(element);
+        return this.elements.includes(element);
     }
     static from(iterable) {
         let values = new Group();
@@ -80,6 +80,9 @@ class Group {
             values.add(i);
         }
         return values;
+    }
+    [Symbol.iterator]() {
+        return new GroupIterator(this);
     }
 }
   
@@ -105,6 +108,21 @@ console.log(group.has(10));
 
 // It is okay if your iterator behaves strangely when the group is modified 
 // during iteration.
+
+class GroupIterator {
+    constructor(iterable_group) {
+        this.index = 0;
+        this.group = iterable_group;
+    }
+    next() {
+        if (this.index == this.group.elements.length) return { done: true };
+
+        let element = this.group.elements[this.index];
+        this.index += 1;
+
+        return {value: element, done: false};
+    }
+}
 
 for (let value of Group.from(["a", "b", "c"])) {
     console.log(value);
