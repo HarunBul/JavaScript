@@ -57,7 +57,30 @@ console.log(new Vec(3, 4).length);
 // iterating over it.
 
 class Group {
-    // Your code here.
+    constructor() {
+        this.group = [];
+    }
+    add(element) {
+        /* Note: could have also used the has() method below */
+        if (!this.group.includes(element)) {
+            this.group.push(element);
+        }
+    }
+    delete(element) {
+        /* Note: could have also used array filter() function */
+        let index = this.group.indexOf(element);
+        if (index != -1) { this.group.splice(index, 1); }
+    }
+    has(element) {
+        return this.group.includes(element);
+    }
+    static from(iterable) {
+        let values = new Group();
+        for (let i of iterable) {
+            values.add(i);
+        }
+        return values;
+    }
 }
   
 let group = Group.from([10, 20]);
