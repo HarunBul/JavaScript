@@ -1,5 +1,7 @@
 /* 7.1. Measuring a Robot */
 
+// Checking something real quick...
+
 // It’s hard to objectively compare robots by just letting them solve a few 
 // scenarios. Maybe one robot just happened to get easier tasks or the kind of 
 // tasks that it is good at, whereas the other didn’t.
